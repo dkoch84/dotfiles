@@ -1,0 +1,49 @@
+[options]
+allow_bold = true
+dynamic_title = true
+scrollback_lines = 5000
+cursor_shape = underline
+font = Iosevka Term SS08 Light 11
+
+[hints]
+font = Iosevka Term SS08 Light10
+
+[colors]
+# special
+foreground      = #6d767d
+foreground_bold = #6d767d
+cursor          = #6d767d
+background      = #f7f8f3
+
+# black
+color0  = #1d252b
+color8  = #0b141a
+
+# red
+color1  = #e3717d
+color9  = #d67e47
+
+# green
+color2  = #43a838
+color10 = #61707a
+
+# yellow
+color3  = #b0913a
+color11 = #6d767d
+
+# blue
+color4  = #469bd4
+color12 = #787e82
+
+# magenta
+color5  = #d6769e
+color13 = #a980e8
+
+# cyan
+color6  = #37a2a6
+color14 = #808487
+
+# white
+color7  = #e6eaed
+color15 = #f7f8f3
+
