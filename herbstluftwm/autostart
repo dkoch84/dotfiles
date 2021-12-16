@@ -25,7 +25,7 @@ hc keybind $Mod-Control-2 set_layout max           # max
 hc keybind $Mod-Control-3 set-layout grid          # grid
 
 # Program shortcuts
-hc keybind $Mod-Return spawn termite
+hc keybind $Mod-Return spawn alacritty
 hc keybind $Mod-c spawn code
 hc keybind $Mod-q spawn qutebrowser
 hc keybind $Mod-w spawn qutebrowser.wrapper 
@@ -37,8 +37,7 @@ hc keybind $Mod-m spawn rofi "Iosevka Term SS08 Light 14" -show drun -modi drun,
 hc keybind Alt-Tab spawn rofi "Iosevka Term SS08 Light 14" -theme window -show window -modi window -display-window "windows: "
 hc keybind $Mod-z spawn /home/daniel/scripts/darkmode
 hc keybind $Mod-a spawn /home/daniel/scripts/lightmode
-hc keybind $Mod-Alt-p spawn ~/scripts/shots snippet
-hc keybind $Mod-Alt-o spawn ~/scripts/shots screen
+hc keybind $Mod-Shift-s spawn flameshot gui
 
 # fn keybinds
  hc keybind XF86MonBrightnessDown spawn /usr/bin/light -U 5
@@ -91,17 +90,61 @@ hc keybind $Mod-Control-Right   resize right +$resizestep
 
 # tags
 tag_names=( 1 2 3 4 5 6 7 8 9 )
-tag_keys=( {1..9} 0)
+tag_keys=( {1..9} )
 
+# Replace the default section for tags in your autostart by the following:
+# This is the default tag section of the autostart, with a single change:
+# In the use_index keybinding, check the presence of the my_monitor attribute,
+# before focusing the desired tag.
 hc rename default "${tag_names[0]}" || true
 for i in ${!tag_names[@]} ; do
     hc add "${tag_names[$i]}"
     key="${tag_keys[$i]}"
     if ! [ -z "$key" ] ; then
-        hc keybind "$Mod-$key" use_index "$i"
+        # first check if the tag is locked to some monitor.
+        # if so, first focus the monitor
+        hc keybind "$Mod-$key" \
+            chain , silent substitute M tags."$i".my_monitor \
+                        focus_monitor M \
+                  , use_index "$i"
         hc keybind "$Mod-Shift-$key" move_index "$i"
     fi
 done
+
+
+# Add a keybinding for locking the current tag to the monitor it is displayed
+# on. This is done by saving the current monitor index in the my_monitor
+# attribute of the focused tag. If the monitor has a (nonempty) name, use the
+# monitor name instead of its index.
+herbstclient keybind $Mod-t chain \
+    , new_attr string tags.focus.my_monitor \
+    , substitute M monitors.focus.index set_attr tags.focus.my_monitor M \
+    , try and \
+        . compare monitors.focus.name != "" \
+        . substitute M monitors.focus.name \
+                set_attr tags.focus.my_monitor M
+
+# Add a keybinding for removing the lock
+herbstclient keybind $Mod-Shift-t \
+    remove_attr tags.focus.my_monitor
+
+# Statically define which tag should be send to which monitor
+lock_tag_to_monitor() {
+    herbstclient chain \
+        , new_attr string tags.by-name."$1".my_monitor \
+        , set_attr tags.by-name."$1".my_monitor "$2"
+}
+# Already lock some of the tags to a monitor, for example:
+# lock the second tag to the monitor with index 0
+lock_tag_to_monitor 6 1
+lock_tag_to_monitor 7 1
+lock_tag_to_monitor 1 0
+lock_tag_to_monitor 2 0
+lock_tag_to_monitor 3 1
+lock_tag_to_monitor 4 1
+lock_tag_to_monitor 5 1
+lock_tag_to_monitor 8 2
+lock_tag_to_moniotr 9 2
 
 # cycle through tags
 hc keybind $Mod-period use_index +1 --skip-visible
@@ -187,7 +230,9 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 hc detect_monitors
 
 # padding for panel
-hc pad 0 28 2 2 2
+hc pad 0 28 0 0 0
+hc pad 1  0 0 0 0
+hc pad 2  0 0 0 0
 
 # start programs once
 {
@@ -208,3 +253,4 @@ hc pad 0 28 2 2 2
 
 hc setenv QT_QPA_PLATFORMTHEME qt5ct
 hc setenv npm_config_prefix ~/.node_modules
+
