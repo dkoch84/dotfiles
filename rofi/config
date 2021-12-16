@@ -1,0 +1,4 @@
+rofi.theme: /home/daniel/.config/rofi/themes/sidebar.rasi
+rofi.terminal:	termite
+rofi.ssh-client:	ssh
+rofi.ssh-command:	{terminal} -e "{ssh-client} {host}"
