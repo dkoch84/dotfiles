@@ -1,0 +1,10 @@
+#!/bin/bash
+
+output=$(mpc --format %title% current)
+if [ "$output" = "" ]
+then
+    echo '---'
+else
+    echo "$output"
+fi
+exit 0

@@ -1,0 +1,99 @@
+* {
+    text-color:  #1d252b;
+    background-color:  rgba(0,0,0,0);
+    dark: #1c1c1c;
+    // Black
+    black:       #1d252b;
+    lightblack:  #808487;
+    //
+    // Red
+    red:         #ff4053;
+    lightred:    #ff549b;
+    //
+    // Green
+    green:       #11ab00;
+    lightgreen:  #88cc22;
+    //
+    // Yellow
+    yellow:      #e8ae5b;
+    lightyellow:     #ffa75d;
+    //
+    // Blue
+    blue:      #0099ff;
+    lightblue:     #00a5ab;
+    //
+    // Magenta
+    magenta:      #deb887;
+    lightmagenta:     #996600;
+    //
+    // Cyan
+    cyan:      #b0c4de;
+    lightcyan:     #b0c4de;
+    //
+    // White
+    white:      #f7f8f3;
+    lightwhite:     #e6ebed;
+    //
+    // Bold, Italic, Underline
+    highlight:     bold #ff4053;
+}
+#window {
+    height:   45%;
+    width: 25em;
+    location: south east;
+    text-color: @black;
+}
+
+#sidebar {
+    border: 2px 0px 0px 0px;
+    background-color: @lightblack;
+}
+#button selected {
+    border-color: @lightgreen;
+    text-color: @lightgreen;
+}
+#inputbar {
+    text-color: @red;
+    padding: 18px;
+	border: 0px 8px 0px 0px;
+	border-color: @red;
+    background-color: #f7f8f3e2;
+}
+#mainbox {
+    expand: true;
+    spacing: 0em;
+	border: 0px 8px 0px 0px;
+	border-color: #c9c5cbff;
+}
+#listview {
+    padding: 0em 0.4em 0em 1em;
+    dynamic: true;
+    background-color: #f7f8f3e2;
+    lines: 0;
+	border: 0px 8px 0px 0px;
+	border-color: @blue;
+}
+#element selected  normal {
+	text-color: @blue;
+}
+#element normal active {
+    text-color: @green;
+}
+#element normal urgent {
+    text-color: @green;
+}
+#element alternate normal {
+}
+#element alternate active {
+    text-color: @lightred;
+}
+#element alternate urgent {
+    text-color: @lightred;
+}
+#element selected active {
+    text-color: @blue;
+}
+#element selected urgent {
+    background-color: @lightred;
+    text-color: @dark;
+}

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+sleep 5
+wget -o /dev/null -q -O- http://www.accuweather.com/en/us/oak-creek-wi/53154/weather-forecast/2248968 > /tmp/weather-url
+
+
+temp=$(awk -F\' '/acm_RecentLocationsCarousel\.push/{print ""$10"°" }' /tmp/weather-url | head -1)
+
+condition=$(awk -F\' '/acm_RecentLocationsCarousel\.push/{print ""$13"" }' /tmp/weather-url | awk -F\" '{print $2}' | head -1)
+
+condition=$(echo $condition | awk '{print tolower($0)}')
+
+echo -e "$condition $temp"

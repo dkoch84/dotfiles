@@ -1,0 +1,12 @@
+#!/bin/bash
+
+status=$(ip link | tail -n 2 | head -n 1 | awk -F: '{print $2}')
+
+if test $status="tun0"
+then
+    echo "fsociety"
+else
+    echo "soft city"
+fi
+
+exit 0

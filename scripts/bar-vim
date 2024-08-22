@@ -1,0 +1,15 @@
+#!/bin/bash
+
+focus=$(herbstclient attr clients.focus.title)
+if echo "$focus" | grep VIM >> /dev/null
+then
+    name=$(echo $focus | awk -F' ' '{print $1}')
+    path=$(echo $focus | awk -F'(' '{print $2}' | awk -F')' '{print $1}')
+    echo "$path/$name"
+elif echo "$focus" | grep "Visual Studio Code" >> /dev/null
+then
+    name=$(echo $focus | awk '{print $1}' | rev | awk -F '/' '{print $1}' | rev)
+    echo "$name"
+else
+    echo "---"
+fi

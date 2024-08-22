@@ -1,0 +1,7 @@
+#!/bin/bash
+
+focus=$(herbstclient attr clients.focus.title)
+output=$(echo $focus | awk '{print tolower($0)}')
+echo $output
+exit 0
+

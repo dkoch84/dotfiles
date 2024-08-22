@@ -1,0 +1,7 @@
+#!/bin/bash
+
+output=$(echo -e '\uf017' )
+
+echo $output
+
+exit 0

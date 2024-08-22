@@ -1,0 +1,6 @@
+#!/bin/bash
+sleep 10
+
+output=$(checkupdates | wc -l)
+
+echo "$output"

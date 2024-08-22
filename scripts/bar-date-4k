@@ -1,0 +1,4 @@
+#!/bin/bash
+output=$(date +'%A, %B %d' | awk '{print tolower($0)}')
+echo "$output"
+exit 0

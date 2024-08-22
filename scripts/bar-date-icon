@@ -1,0 +1,5 @@
+#!/bin/bash
+output=$(echo -e '\uf274')
+echo $output
+exit 0
+

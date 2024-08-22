@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo -e '\uf121'
+
+exit 0

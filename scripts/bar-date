@@ -1,0 +1,4 @@
+#!/bin/bash
+output=$(date +'%-mx%-d')
+echo "$output"
+exit 0

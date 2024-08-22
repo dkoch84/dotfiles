@@ -1,0 +1,12 @@
+#!/bin/bash
+
+status=$(ip link | grep tun0 | awk -F: '{print $2}')
+
+if test $status="tun0"
+then
+    echo -e '\uf2a8'
+else
+    echo -e '\uf06e'
+fi
+
+exit 0

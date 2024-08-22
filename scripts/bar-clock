@@ -1,0 +1,4 @@
+#!/bin/bash
+output=$(date +'%l:%M' | awk '{$1=$1;print}')
+echo "$output"
+exit 0

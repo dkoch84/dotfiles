@@ -1,0 +1,6 @@
+#!/bin/bash
+
+output=$(echo -e '\uf025')
+
+echo $output
+exit 0

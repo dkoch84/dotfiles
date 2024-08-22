@@ -1,0 +1,232 @@
+#!/usr/bin/env bash
+
+# this is a simple config for herbstluftwm
+
+hc() {
+    herbstclient "$@"
+}
+
+hc emit_hook reload
+
+
+# remove all existing keybindings
+hc keyunbind --all
+
+# keybindings
+# if you have a super key you will be much happier with Mod set to Mod4
+Mod=Mod4   # Use the super key as the main modifier
+
+hc keybind $Mod-Shift-q quit
+hc keybind $Mod-Shift-r reload
+hc keybind $Mod-Shift-c close
+hc keybind $Mod-Shift-s spawn flameshot gui
+hc keybind $Mod-Return spawn alacritty 
+hc keybind $Mod-c spawn code
+hc keybind $Mod-q spawn qutebrowser
+hc keybind $Mod-w spawn qutebrowser.wrapper
+hc keybind $Mod-e spawn qutebrowser.firebase
+hc keybind $Mod-v spawn termite -e vim
+hc keybind $Mod-m spawn rofi -font "Iosevka Term SS08 Light 22" -modi drun,run -show drun -display-drun "launch: " -display-run "run: " -theme sidebar
+hc keybind Alt-Tab spawn rofi -theme window -font "Iosevka Term SS08 Light 22" -modi window -show window -display-window "search windows: "
+hc keybind $Mod-d spawn dolphin 
+hc keybind $Mod-v spawn vivaldi-stable
+hc keybind $Mod-a spawn /home/daniel/scripts/lightmode
+hc keybind $Mod-Alt-p spawn ~/scripts/shots snip
+hc keybind $Mod-Alt-o spawn ~/scripts/shots screen
+
+# fn keybinds
+hc keybind XF86MonBrightnessDown spawn /home/daniel/scripts/lightsdown
+hc keybind XF86MonBrightnessUp   spawn /usr/bin/light -A 5
+
+# basic movement
+# focusing clients
+hc keybind $Mod-Left  focus left
+hc keybind $Mod-Down  focus down
+hc keybind $Mod-Up    focus up
+hc keybind $Mod-Right focus right
+hc keybind $Mod-h     focus left
+hc keybind $Mod-j     focus down
+hc keybind $Mod-k     focus up
+hc keybind $Mod-l     focus right
+
+# moving clients
+hc keybind $Mod-Shift-Left  shift left
+hc keybind $Mod-Shift-Down  shift down
+hc keybind $Mod-Shift-Up    shift up
+hc keybind $Mod-Shift-Right shift right
+
+# moving clients to different tags/desktops
+hc keybind $Mod-Shift-1     move 1
+hc keybind $Mod-Shift-2     move 2
+hc keybind $Mod-Shift-3     move 3
+hc keybind $Mod-Shift-4     move 4
+
+# changing default layout for current tag
+hc keybind $Mod-Control-0 set_layout vertical
+hc keybind $Mod-Control-1 set_layout horizontal
+hc keybind $Mod-Control-2 set_layout max
+hc keybind $Mod-Control-3 set_layout grid
+
+# splitting frames
+# create an empty frame at the specified direction
+hc keybind $Mod-u       split   top     0.5
+hc keybind $Mod-o       split   left    0.5
+
+hc keybind $Mod-Shift-u split   top     0.25
+hc keybind $Mod-Shift-o split   left    0.35
+
+# let the current frame explode into subframes
+hc keybind $Mod-Control-space split explode
+
+# resizing frames
+resizestep=0.008
+hc keybind $Mod-Control-h       resize left +$resizestep
+hc keybind $Mod-Control-j       resize down +$resizestep
+hc keybind $Mod-Control-k       resize up +$resizestep
+hc keybind $Mod-Control-l       resize right +$resizestep
+hc keybind $Mod-Control-Left    resize left +$resizestep
+hc keybind $Mod-Control-Down    resize down +$resizestep
+hc keybind $Mod-Control-Up      resize up +$resizestep
+hc keybind $Mod-Control-Right   resize right +$resizestep
+
+# tags
+tag_names=( 1 2 3 4 5 6 7 8 9 )
+tag_keys=( {1..9} 0)
+
+hc rename default "${tag_names[0]}" || true
+for i in ${!tag_names[@]} ; do
+    hc add "${tag_names[$i]}"
+    key="${tag_keys[$i]}"
+    if ! [ -z "$key" ] ; then
+        hc keybind "$Mod-$key" use_index "$i"
+        hc keybind "$Mod-Shift-$key" move_index "$i"
+    fi
+done
+
+# cycle through tags
+hc keybind $Mod-period use_index +1 --skip-visible
+hc keybind $Mod-comma  use_index -1 --skip-visible
+
+# layouting
+hc keybind $Mod-r remove
+hc keybind $Mod-s floating toggle
+hc keybind $Mod-f fullscreen toggle
+hc keybind $Mod-p pseudotile toggle
+# The following cycles through the available layouts within a frame, but skips
+# layouts, if the layout change wouldn't affect the actual window positions.
+# I.e. if there are two windows within a frame, the grid layout is skipped.
+hc keybind $Mod-space                                                           \
+            or , and . compare tags.focus.curframe_wcount = 2                   \
+                     . cycle_layout +1 vertical horizontal max vertical grid    \
+               , cycle_layout +1
+
+# mouse
+hc mouseunbind --all
+hc mousebind $Mod-Button1 move
+hc mousebind $Mod-Shift-Button1 resize
+hc mousebind $Mod-Button3 zoom
+
+# focus
+hc keybind $Mod-BackSpace   cycle_monitor
+hc keybind $Mod-Tab         cycle_all +1
+hc keybind $Mod-Shift-Tab   cycle_all -1
+hc keybind $Mod-g cycle
+hc keybind $Mod-i jumpto urgent
+
+# theme
+hc attr theme.tiling.reset 1
+hc attr theme.floating.reset 1
+hc set frame_border_active_color '#f7f8f3'
+hc set frame_border_normal_color '#4e9bcf'
+hc set frame_bg_normal_color '#f7f8f3'
+hc set frame_bg_active_color '#f7f8f3'
+
+hc set frame_border_width 0
+hc set frame_bg_transparent 1
+hc set frame_transparent_width 0
+hc set frame_gap 0
+
+hc attr theme.active.color '#4e9bcf'
+hc attr theme.normal.color '#c9c5cb'
+hc attr theme.urgent.color '#808487'
+hc attr theme.inner_width 0
+hc attr theme.inner_color '#f7f8f3'
+hc attr theme.border_width 4
+hc attr theme.floating.border_width 4
+hc attr theme.floating.outer_width 0
+hc attr theme.floating.outer_color '#c9c5cb'
+hc attr theme.active.inner_color '#f7f8f3'
+hc attr theme.active.outer_color '#4e9bcf'
+hc attr theme.background_color '#f7f8f3'
+
+hc set window_gap 8
+hc set frame_padding -4
+hc set smart_window_surroundings 0
+hc set smart_frame_surroundings 0
+hc set snap_distance 44
+hc set snap_gap 44
+hc set mouse_recenter_gap 0
+hc set pseudotile_center_threshold 60
+
+# rules
+hc unrule -F
+#hc rule class=XTerm tag=3 # move all xterms to tag 3
+hc rule focus=on # normally focus new clients
+#hc rule focus=off # normally do not focus new clients
+# give focus to most common terminals
+#hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=off
+hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+
+# unlock, just to be sure
+hc unlock
+
+herbstclient set tree_style '╾│ ├└╼─┐'
+
+hc detect_monitors
+
+# add a float layer for dialogs
+#hc add_monitor 3840x2160+0+0 8 floatmon
+#hc raise_monitor floatmon
+#hc lock_tag floatmon
+#hc floating 8 on
+
+# add a maxed layer for productivity
+#hc add_monitor 3840x2160+0+0 9 maxmon
+#hc raise_monitor maxmon
+#hc lock_tag maxmon
+
+# herbstluftwm padding for panel - monitor top right bottom left
+hc pad 0 50 12 12 12
+#hc pad floatmon 50 12 12 12
+#hc pad maxmon 40 0 0 0
+
+# start programs once
+{
+    command="silent new_attr bool my_not_first_autostart"
+
+    if hc $command;
+    then
+        tint2 &
+        hsetroot -solid '#f7f8f3' &
+        compton -b --unredir-if-possible &
+        redshift-gtk &
+        volumeicon &
+        nm-applet &
+        kdeconnect-indicator &
+        dunst &
+        nitrogen --restore &
+        xfce4-power-manager &
+    fi
+}
+
+# set environment variables
+hc setenv QT_QPA_PLATFORMTHEME qt5ct
+hc setenv npm_config_prefix ~/.node_modules
+
+# special scaling variables
+hc setenv QT_AUTO_SCREEN_SCALE_FACTOR 0
+hc setenv QT_SCREEN_SCALE_FACTORS 1.75
+hc setenv GDK_SCALE 2
+hc setenv GDK_DPI_SCALE 0.5

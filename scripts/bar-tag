@@ -1,0 +1,9 @@
+#!/bin/bash
+
+lines=$(herbstclient stack | grep "Monitor $(herbstclient list_monitors | grep FOCUS | awk -F: '{print $1}')" | cut -d'"' -f 2)
+
+left=$(echo $lines | awk '{print $1}')
+
+echo $left
+
+exit 0

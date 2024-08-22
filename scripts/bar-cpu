@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+
+import psutil
+
+print(psutil.cpu_percent(3),end=""),print('% / ',end=""),print(psutil.virtual_memory().percent,end=""),print('%')

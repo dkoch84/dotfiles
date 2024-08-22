@@ -1,0 +1,10 @@
+#!/bin/bash
+
+lines=$(herbstclient stack | grep Monitor | cut -d'"' -f 2)
+
+left=$(echo $lines | awk '{print $1}')
+right=$(echo $lines | awk '{print $2}')
+
+echo $left
+
+exit 0

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+output=$(printf %2.1f $(free -k | grep Mem | awk '{print "100-"$7 "/"  $2 "*100"}' | bc -l))
+
+echo "$output"%
