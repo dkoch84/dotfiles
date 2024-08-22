@@ -1,0 +1,74 @@
+live_config_reload = true
+
+[colors.bright]
+black = "0x0b141a"
+blue = "0x787e82"
+cyan = "0x808487"
+green = "0x61707a"
+magenta = "0xa980e8"
+red = "0xd67e47"
+white = "0xf7f8f3"
+yellow = "0x6d767d"
+
+[colors.cursor]
+cursor = "0x6d767d"
+text = "0xf7f8f3"
+
+[colors.normal]
+black = "0x1d252b"
+blue = "0x469bd4"
+cyan = "0x37a2a6"
+green = "0x43a838"
+magenta = "0xd6769e"
+red = "0xe3717d"
+white = "0xe6eaed"
+yellow = "0xb0913a"
+
+[colors.primary]
+background = "0xf7f8f3"
+foreground = "0x6d767d"
+
+[cursor]
+blink_interval = 500
+thickness = 0.2
+unfocused_hollow = false
+
+[cursor.style]
+blinking = "On"
+shape = "Underline"
+
+[font]
+size = 10.5
+
+[font.bold]
+family = "monospace"
+style = "Bold"
+
+[font.bold_italic]
+family = "monospace"
+style = "Bold Italic"
+
+[font.italic]
+family = "monospace"
+style = "Italic"
+
+[font.normal]
+family = "monospace"
+style = "Regular"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mode = "~Vi"
+mods = "Control"
+
+[selection]
+save_to_clipboard = true
+
+[window]
+dynamic_title = true
+title = "Alacritty"
+
+[window.padding]
+x = 10
+y = 10
